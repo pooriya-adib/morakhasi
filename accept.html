@@ -26,12 +26,70 @@
     <div class="accept shadow-box">
       <span class="accept-header"> کد تایید را وارد کنید </span>
       <div class="accept-main">
-        <input type="number" name="sms-num" id="sms-num" />
+        <div class="accept-main-input-wrapper" dir="ltr">
+          <input class="accept-main-input-item" type="number" maxlength="1" />
+          <input class="accept-main-input-item" type="number" maxlength="1" />
+          <input class="accept-main-input-item" type="number" maxlength="1" />
+          <input class="accept-main-input-item" type="number" maxlength="1" />
+        </div>
       </div>
       <div class="accept-btn-wrapper">
-        <button class="accept-btn">تایید</button>
-
+        <button class="accept-btn-item" type="submit">تایید</button>
+        <span class="accept-show-code"> inja </span>
       </div>
     </div>
+    <script>
+      const inputs = document.querySelectorAll('.accept-main-input-item');
+const showCode = document.querySelector('.accept-show-code');
+const submitButton = document.querySelector('.accept-btn-item');
+
+// فوکوس روی اولین اینپوت هنگام لود صفحه
+window.addEventListener('DOMContentLoaded', () => {
+  inputs[0].focus();
+});
+
+inputs.forEach((input, index) => {
+  // محدود کردن تعداد کاراکترهای وارد شده به ۱
+  input.addEventListener('input', (e) => {
+    if (e.target.value.length > 1) {
+      e.target.value = e.target.value.slice(0, 1);
+    }
+
+    // انتقال فوکوس به اینپوت بعدی
+    if (e.target.value.length > 0 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
+  });
+
+  // انتقال فوکوس به اینپوت قبلی در صورت پاک کردن
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+      inputs[index - 1].focus();
+    }
+  });
+});
+
+// کلیک روی دکمه تایید و نمایش کد وارد شده
+submitButton.addEventListener('click', submitCode);
+
+// اضافه کردن رویداد Enter برای ارسال
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const allFilled = Array.from(inputs).every((input) => input.value.trim() !== '');
+    if (allFilled) {
+      submitCode();
+    }
+  }
+});
+
+// تابع ارسال کد
+function submitCode() {
+  const code = Array.from(inputs)
+    .map((input) => input.value)
+    .join('');
+  showCode.textContent = code || 'number';
+}
+
+    </script>
   </body>
 </html>

@@ -230,6 +230,8 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
+  background-color: #000000;
+
 }
 img {
   height: 100%;
