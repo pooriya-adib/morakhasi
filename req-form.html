@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/normalize.css" />
+    <link rel="stylesheet" href="./js/jalalidatepicker.min.css" />
+    <link rel="stylesheet" href="./styles/req-form/req-form.css" />
+
+    <title>فرم درخواست خروج از شهر</title>
+    <style>
+      .toggle-wrapper {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+      }
+
+      .toggle-label {
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #4a5568;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      input[type="text"][data-jdp] {
+        pointer-events: none; /* Disable manual input */
+      }
+
+      input[type="text"]::-webkit-calendar-picker-indicator {
+        display: none; /* Hide default date icon */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-img-wrapper">
+      <img
+        src="./assets/image/—Pngtree—vibrant 3d taxi icon with_3928555.jpg"
+        alt="background image"
+      />
+    </div>
+    <div class="req-form shadow-box">
+      <span class="req-form-header"> فرم درخواست خروج از شهر </span>
+      <div class="req-form-main">
+        <div class="req-form-input-wrapper">
+          <input
+            type="text"
+            class="req-form-input-item"
+            placeholder="کد ملی را وارد کنید"
+            onkeypress="return /[0-9]/i.test(event.key)"
+            id="password"
+            maxlength="10"
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            class="req-form-input-item"
+            placeholder="شماره تلفن را وارد کنید"
+            maxlength="11"
+            autocomplete="off"
+            id="phone"
+            onkeypress="return /[0-9]/i.test(event.key)"
+          />
+        </div>
+        <div class="req-form-select-wrapper">
+          <select
+            class="req-form-select-item"
+            onChange="irancitylist(this.value);"
+          >
+            <option value="0">لطفا استان را انتخاب کنید</option>
+            <option value="تهران">تهران</option>
+            <option value="گیلان">گیلان</option>
+            <option value="آذربایجان شرقی">آذربایجان شرقی</option>
+            <option value="خوزستان">خوزستان</option>
+            <option value="فارس">فارس</option>
+            <option value="اصفهان">اصفهان</option>
+            <option value="خراسان رضوی">خراسان رضوی</option>
+            <option value="قزوین">قزوین</option>
+            <option value="سمنان">سمنان</option>
+            <option value="قم">قم</option>
+            <option value="مرکزی">مرکزی</option>
+            <option value="زنجان">زنجان</option>
+            <option value="مازندران">مازندران</option>
+            <option value="گلستان">گلستان</option>
+            <option value="اردبیل">اردبیل</option>
+            <option value="آذربایجان غربی">آذربایجان غربی</option>
+            <option value="همدان">همدان</option>
+            <option value="کردستان">کردستان</option>
+            <option value="کرمانشاه">کرمانشاه</option>
+            <option value="لرستان">لرستان</option>
+            <option value="بوشهر">بوشهر</option>
+            <option value="کرمان">کرمان</option>
+            <option value="هرمزگان">هرمزگان</option>
+            <option value="چهارمحال و بختیاری">چهارمحال و بختیاری</option>
+            <option value="یزد">یزد</option>
+            <option value="سیستان و بلوچستان">سیستان و بلوچستان</option>
+            <option value="ایلام">ایلام</option>
+            <option value="کهگلویه و بویراحمد">کهگلویه و بویراحمد</option>
+            <option value="خراسان شمالی">خراسان شمالی</option>
+            <option value="خراسان جنوبی">خراسان جنوبی</option>
+            <option value="البرز">البرز</option>
+          </select>
+          <select class="req-form-select-item" id="city">
+            <option value="0">لطفا شهر را انتخاب کنید</option>
+          </select>
+        </div>
+        <div class="req-form-date-wrapper">
+          <input
+            type="text"
+            name="start"
+            class="req-form-date-item"
+            placeholder="تاریخ شروع"
+            data-jdp
+            id="startDate"
+            readonly
+          />
+          <input
+            type="text"
+            class="req-form-date-item"
+            placeholder="تاریخ پایان"
+            data-jdp
+            id="endDate"
+            readonly
+          />
+          <div class="toggle-wrapper">
+            <label class="toggle-label" for="startDate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v-.005h-.006v-.005Zm6.75-2.247h.005v-.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z"
+                />
+              </svg>
+            </label>
+            <label class="toggle-label" for="endDate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v-.005h-.006v-.005Zm6.75-2.247h.005v-.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z"
+                />
+              </svg>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="req-form-btn-wrapper">
+        <button class="req-form-btn-item" type="button" onclick="showDates()">تایید</button>
+      </div>
+      <span id="result">inja</span>      
+    </div>
+    <script src="./js/jquery-3.7.1.min.js.js"></script>
+    <script src="./js/jalalidatepicker.min.js.js"></script>
+    <script src="./js/city.js"></script>
+    <script>
+      jalaliDatepicker.startWatch({
+        minDate: "attr",
+        maxDate: "attr",
+        onchange: (event) => {
+          if (event.target.id === "startDate") {
+            document.getElementById("startDate").value = event.target.value;
+          } else if (event.target.id === "endDate") {
+            document.getElementById("endDate").value = event.target.value;
+          }
+        },
+      });
+      document.addEventListener("click", function (event) {
+        if (event.target.hasAttribute("data-jdp")) {
+          event.target.addEventListener("change", function () {
+            if (this.id === "startDate") {
+              document.getElementById("startDate").value = this.value;
+            } else if (this.id === "endDate") {
+              document.getElementById("endDate").value = this.value;
+            }
+          });
+        }
+      });
+      function showDates() {
+  const nationalCode = document.getElementById("password").value;
+  const phoneNumber = document.getElementById("phone").value;
+  const selectedProvince = document.querySelector(".req-form-select-item").value;
+  const selectedCity = document.getElementById("city").value;
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  document.getElementById("result").innerText = `
+    کد ملی: ${nationalCode}, 
+    شماره تلفن: ${phoneNumber}, 
+    استان: ${selectedProvince}, 
+    شهر: ${selectedCity}, 
+    تاریخ شروع: ${startDate}, 
+    تاریخ پایان: ${endDate}
+  `;
+}
+
+      console.log(result);
+    </script>
+  </body>
+</html>
