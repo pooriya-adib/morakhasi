@@ -1,12 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/normalize.css" />
-    <link rel="stylesheet" href="./js/jalalidatepicker.min.css" />
-    <link rel="stylesheet" href="./styles/req-form/req-form.css" />
+    <link rel="stylesheet" href="{% static 'styles/normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'js/jalalidatepicker.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/req-form/req-form.css' %}" />
 
     <title>فرم درخواست خروج از شهر</title>
     <style>
@@ -44,15 +45,17 @@
   <body>
     <div class="bg-img-wrapper">
       <img
-        src="./assets/image/—Pngtree—vibrant 3d taxi icon with_3928555.jpg"
+        src="{% static 'assets/image/—Pngtree—vibrant 3d taxi icon with_3928555.jpg' %}"
         alt="background image"
       />
     </div>
-    <div class="req-form shadow-box">
+    <div  class="req-form shadow-box">
       <span class="req-form-header"> فرم درخواست خروج از شهر </span>
-      <div class="req-form-main">
+      <form method="post" action="/leave/" class="req-form-main">
+          {% csrf_token %}
         <div class="req-form-input-wrapper">
           <input
+            name="NationCode"
             type="text"
             class="req-form-input-item"
             placeholder="کد ملی را وارد کنید"
@@ -62,6 +65,7 @@
             autocomplete="off"
           />
           <input
+                  name="phone_number"
             type="text"
             class="req-form-input-item"
             placeholder="شماره تلفن را وارد کنید"
@@ -73,6 +77,7 @@
         </div>
         <div class="req-form-select-wrapper">
           <select
+                  name="state"
             class="req-form-select-item"
             onChange="irancitylist(this.value);"
           >
@@ -109,12 +114,13 @@
             <option value="خراسان جنوبی">خراسان جنوبی</option>
             <option value="البرز">البرز</option>
           </select>
-          <select class="req-form-select-item" id="city">
+          <select name="city" class="req-form-select-item" id="city">
             <option value="0">لطفا شهر را انتخاب کنید</option>
           </select>
         </div>
         <div class="req-form-date-wrapper">
           <input
+                  name="start"
             type="text"
             name="start"
             class="req-form-date-item"
@@ -124,6 +130,7 @@
             readonly
           />
           <input
+                  name="end"
             type="text"
             class="req-form-date-item"
             placeholder="تاریخ پایان"
@@ -166,15 +173,15 @@
             </label>
           </div>
         </div>
+            <div class="req-form-btn-wrapper">
+        <button class="req-form-btn-item">تایید</button>
       </div>
-      <div class="req-form-btn-wrapper">
-        <button class="req-form-btn-item" type="button" onclick="showDates()">تایید</button>
-      </div>
-      <span id="result">inja</span>      
+      </form>
+
     </div>
-    <script src="./js/jquery-3.7.1.min.js.js"></script>
-    <script src="./js/jalalidatepicker.min.js.js"></script>
-    <script src="./js/city.js"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js.js' %}"></script>
+    <script src="{% static 'js/jalalidatepicker.min.js.js' %}"></script>
+    <script src="{% static 'js/city.js' %}"></script>
     <script>
       jalaliDatepicker.startWatch({
         minDate: "attr",
@@ -216,7 +223,6 @@
   `;
 }
 
-      console.log(result);
     </script>
   </body>
 </html>

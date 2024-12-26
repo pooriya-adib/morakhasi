@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, User
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
-from .models import Leave, LeaveRestriction, State, City, Driver
+from .models import Leave, LeaveRestriction, Driver
 from .resources import DriverResource
 
 
@@ -36,12 +36,6 @@ class LeaveRestrictionAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class CityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'state__name')
-    search_fields = ('name', 'state__name')
-    list_display_links = ('name', 'state__name')
-
-
 @admin.register(Driver)
 class DriverAdmin(ImportExportModelAdmin):
     resource_class = DriverResource
@@ -53,8 +47,6 @@ class DriverAdmin(ImportExportModelAdmin):
                      'car', 'mobile_number', 'nation_code')
 
 
-admin.site.register(State)
-admin.site.register(City, CityAdmin)
 admin.site.register(Leave, LeaveAdmin)
 admin.site.register(LeaveRestriction, LeaveRestrictionAdmin)
 admin.site.unregister(User)

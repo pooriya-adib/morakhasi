@@ -1,8 +1,10 @@
+import random
+
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django_jalali.db import models as jalali_models
 import jdatetime
-
+import uuid
 
 class LeaveRestriction(models.Model):
     day_per_year = models.IntegerField(verbose_name='تعداد روز های مجاز سالانه', default=60)
@@ -20,30 +22,31 @@ class LeaveRestriction(models.Model):
         return str(self.day_per_year)
 
 
-class State(models.Model):
-    name = models.CharField(max_length=255, verbose_name='اسم استان')
+# class State(models.Model):
+#     name = models.CharField(max_length=255, verbose_name='اسم استان')
+#
+#     class Meta:
+#         verbose_name = "استان مد نظر"
+#         verbose_name_plural = "استان ها"
+#
+#     def __str__(self):
+#         return self.name
 
-    class Meta:
-        verbose_name = "استان مد نظر"
-        verbose_name_plural = "استان ها"
 
-    def __str__(self):
-        return self.name
-
-
-class City(models.Model):
-    name = models.CharField(max_length=255, verbose_name='شهر استان')
-    state = models.ForeignKey(State, on_delete=models.CASCADE, verbose_name='اسم استان مربوط')
-
-    class Meta:
-        verbose_name = "شهر مد نظر"
-        verbose_name_plural = "شهر ها"
-
-    def __str__(self):
-        return f'{self.name} - {self.state}'
+# class City(models.Model):
+#     name = models.CharField(max_length=255, verbose_name='شهر استان')
+#     state = models.ForeignKey(State, on_delete=models.CASCADE, verbose_name='اسم استان مربوط')
+#
+#     class Meta:
+#         verbose_name = "شهر مد نظر"
+#         verbose_name_plural = "شهر ها"
+#
+#     def __str__(self):
+#         return f'{self.name} - {self.state}'
 
 
 class Driver(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nation_code = models.CharField(max_length=10, validators=[MinLengthValidator(10)], verbose_name='کد ملی')
     name = models.CharField(max_length=255, verbose_name='نام')
     family = models.CharField(max_length=255, verbose_name='نام خانوادگی')
@@ -62,6 +65,8 @@ class Driver(models.Model):
         verbose_name_plural = "راننده ها"
 
     def save(self, *args, **kwargs):
+        if LeaveRestriction.objects.count() == 0:
+            LeaveRestriction.objects.create()
         if self.leave_restriction == 0:
             self.leave_restriction = LeaveRestriction.objects.first().day_per_year
         super().save(*args, **kwargs)
@@ -82,8 +87,13 @@ class Leave(models.Model):
     city_travel_destination = models.CharField(max_length=250, verbose_name='شهر مقصد سفر راننده', default='')
     status = models.BooleanField(default=False, verbose_name='تایید فرم مرخصی راننده')
 
+    serial = models.IntegerField(default=0)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, default='')
 
+    def save(self, *args, **kwargs):
+        if self.id:
+            self.serial = random.randint(10000,99999)
+        super().save(*args, **kwargs)
     class Meta:
         verbose_name = "فرم مرخصی"
         verbose_name_plural = "فرم مرخصی ها"

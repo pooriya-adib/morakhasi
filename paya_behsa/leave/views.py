@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Leave, State, City, Driver
+from .models import Leave, Driver
 from django.contrib import messages
 from .forms import ExcelFileForm
 import pandas as pd
 from django.db.models import Q
-
+from .utils import sms_sender
 
 def index(request):
     if request.method == 'POST':
@@ -16,11 +16,11 @@ def index(request):
         city = request.POST['city']
         year, month, day = map(int, start_date.split('/'))
         start_date = f"{year}-{month}-{day}"
-        start_day = day
+        # start_day = day
         year, month, day = map(int, end_date.split('/'))
         end_date = f"{year}-{month}-{day}"
-        end_day = day
-        len_leave = end_day - start_day
+        # end_day = day
+        # len_leave = end_day - start_day
         # if len_leave > 9:
         driver = Driver.objects.filter(Q(nation_code=nation_code) &
                                        Q(mobile_number=phone_number)).first()
@@ -28,17 +28,21 @@ def index(request):
             Leave.objects.create(nation_code=nation_code, mobile_number=phone_number, end_date=end_date,
                                  start_date=start_date, state_travel_destination=state,
                                  city_travel_destination=city, driver=driver)
-            print('this is only test')
-            messages.success(request,
-                             'در خواست شما با موفقیت ثبت شد! نتیجه از طریق پیام به خط تلفن شما اعلام می‌شود')
-            return render(request, 'confirm.html', context={'driver': driver})
+            print('done')
+            result = sms_sender(driver.mobile_number)
+            if not result:
+                return render(request, 'accept.html', context={'random_code':result})
+            else:
+                messages.success(request,
+                                 'در ارسال کد تایید مشکلی پیش امده لطفا شماره تماس خود را بررسی کنید')
+
+
         messages.success(request, 'فرد با این مشخصات یافت نشد')
-        print('فرد با این مشخصات یافت نشد')
         return redirect('leaves')
         # else:
         #     messages.success(request, 'مدت زمان مرخصی بیشتر از ۹ روز ممکن نیست')
         #     return redirect('leaves')
-    return render(request, 'index.html')
+    return render(request, 'req-form.html')
 
 
 # def get_all_states_city(request):
@@ -122,9 +126,5 @@ def get_excel(request):
     return render(request=request, template_name='excel_test.html', context={'form': form})
 
 
-def confirm(request):
-    return render(request, 'accept.html', context={'text': 'this for test'})
-
-
-def get_map(request):
-    return render(request, 'test.html')
+def verify_request(request):
+    pass
