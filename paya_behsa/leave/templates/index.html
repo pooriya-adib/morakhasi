@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/normalize.css" />
-    <link rel="stylesheet" href="./styles/profile/profile.css" />
+    <link rel="stylesheet" href="{% static 'styles/normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/profile/profile.css' %}" />
 
     <title>فرم درخواست مرخصی</title>
     <!-- <link rel="icon" href="./file/logo/logo.png" /> -->
@@ -31,7 +32,7 @@
   <body>
     <div class="bg-img-wrapper">
       <img
-        src="./assets/image/—Pngtree—vibrant 3d taxi icon with_3928555.jpg"
+        src="{% static 'assets/image/—Pngtree—vibrant 3d taxi icon with_3928555.jpg' %}"
         alt="background image"
       />
     </div>
@@ -40,7 +41,7 @@
       <div class="profile-header">
         <span class="profile-header-title">اطلاعات کاربری</span>
         <div class="profile-header-img-wrapper">
-          <img src="./assets/image/profile/prof2.png" alt="background image" />
+          <img src="{% static 'assets/image/profile/prof2.png' %}" alt="background image" />
         </div>
       </div>
       <!-- List detail -->
